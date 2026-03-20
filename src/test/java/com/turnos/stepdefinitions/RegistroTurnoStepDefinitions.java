@@ -5,6 +5,7 @@ import com.turnos.questions.RegistrationSuccessMessage;
 import com.turnos.tasks.NavigateToRegisterPage;
 import com.turnos.tasks.RegisterTurno;
 import com.turnos.tasks.SubmitRegistration;
+import com.turnos.util.Constants;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,7 +21,7 @@ public class RegistroTurnoStepDefinitions {
 
     @Given("que el paciente se encuentra en la pagina de registro de turnos")
     public void patientIsOnTurnoRegistrationPage() {
-        patient = OnStage.theActorCalled("Paciente");
+        patient = OnStage.theActorCalled(Constants.ACTOR_PATIENT);
         patient.attemptsTo(NavigateToRegisterPage.onRegisterPage());
     }
 
