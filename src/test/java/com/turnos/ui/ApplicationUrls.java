@@ -9,8 +9,7 @@ public class ApplicationUrls {
     private static String baseUrl() {
         return EnvironmentSpecificConfiguration
                 .from(SystemEnvironmentVariables.currentEnvironmentVariables())
-                .getOptionalProperty("webdriver.base.url")
-                .orElse(Constants.DEFAULT_BASE_URL);
+                .getProperty("webdriver.base.url");
     }
 
     public static String registerPage() {
