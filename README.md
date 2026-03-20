@@ -1,10 +1,10 @@
 # AUTO_FRONT_SCREENPLAY
 
-Proyecto de automatización de pruebas UI para el Sistema de Turnos, construido con **Java 17 + Serenity BDD 5.3.2 + Cucumber + Gradle** usando el patrón **Screenplay**.
+Proyecto de automatización de pruebas UI para el Sistema de Turnos, construido con **Java 21 + Serenity BDD 5.3.2 + Cucumber + Gradle** usando el patrón **Screenplay**.
 
 ## Prerrequisitos
 
-1. **Java 17** instalado y configurado en `JAVA_HOME`
+1. **Java 21** instalado y configurado en `JAVA_HOME`
 2. **Google Chrome** instalado (el WebDriver es descargado automáticamente por Serenity)
 3. **La aplicación bajo prueba** corriendo en `http://localhost:3001`:
    - Sistema de Turnos construido en Next.js
@@ -47,6 +47,8 @@ AUTO_FRONT_SCREENPLAY/
 ./gradlew clean test
 ```
 
+El task `aggregate` se ejecuta automáticamente al finalizar `test`, generando el reporte de Serenity.
+
 ## Dónde ver el reporte
 
 Abrir en el navegador:
@@ -71,7 +73,7 @@ environments {
 
 | Componente | Tecnología |
 |---|---|
-| Lenguaje | Java 17 |
+| Lenguaje | Java 21 |
 | Build tool | Gradle (Groovy DSL) |
 | Framework | Serenity BDD 5.3.2 |
 | Test runner | Cucumber + JUnit Platform |
