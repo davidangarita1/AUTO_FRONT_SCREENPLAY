@@ -19,4 +19,12 @@ public class ApplicationUrls {
     public static String dashboardPage() {
         return baseUrl() + Constants.DASHBOARD_PATH;
     }
+
+    public static String signinPage() {
+        return baseUrl() + Constants.SIGNIN_PATH;
+    }
+
+    public static String doctorsPage() {
+        return baseUrl() + Constants.DOCTORS_PATH;
+    }
 }
