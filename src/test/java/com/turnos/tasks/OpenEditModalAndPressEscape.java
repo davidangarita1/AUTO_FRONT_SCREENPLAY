@@ -10,7 +10,7 @@ import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.waits.WaitUntil;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 
@@ -29,8 +29,7 @@ public class OpenEditModalAndPressEscape implements Task {
                 Click.on(DoctorsPage.editButton(doctorDisplayName)),
                 WaitUntil.the(DoctorEditModal.MODAL, isVisible()).forNoMoreThan(10).seconds()
         );
-        WebElement modal = DoctorEditModal.MODAL.resolveFor(actor).getElement();
-        modal.sendKeys(Keys.ESCAPE);
+        new Actions(BrowseTheWeb.as(actor).getDriver()).sendKeys(Keys.ESCAPE).perform();
     }
 
     public static Task forDoctor(String doctorDisplayName) {
