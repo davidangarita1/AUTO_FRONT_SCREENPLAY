@@ -12,6 +12,9 @@ import com.turnos.questions.SaveButtonIsEnabled;
 import com.turnos.questions.TableHeaders;
 import com.turnos.questions.ToastMessage;
 import com.turnos.questions.ValidationMessage;
+import com.turnos.tasks.CloseCreateModal;
+import com.turnos.tasks.CloseEditModal;
+import com.turnos.tasks.CreateDoctorWithSameCedula;
 import com.turnos.tasks.DeactivateDoctor;
 import com.turnos.tasks.EditDoctorOfficeAndShift;
 import com.turnos.tasks.FillDoctorForm;
@@ -19,6 +22,7 @@ import com.turnos.tasks.LogIn;
 import com.turnos.tasks.NavigateToDoctorsModule;
 import com.turnos.tasks.NavigateToSignInPage;
 import com.turnos.tasks.OpenEditModalAndClickOutside;
+import com.turnos.tasks.OpenEditModalAndPressEscape;
 import com.turnos.tasks.RegisterDoctor;
 import com.turnos.tasks.SelectReactOption;
 import com.turnos.tasks.SubmitSignIn;
@@ -224,5 +228,47 @@ public class DoctorsManagementStepDefinitions {
     @Then("el medico {string} aparece en la tabla")
     public void doctorIsInTable(String doctorDisplayName) {
         employee.should(seeThat(DoctorIsInTable.withName(doctorDisplayName), is(true)));
+    }
+
+    @When("el usuario ingresa nombre {string} y cedula {string} en el formulario")
+    public void enterNameAndCedulaInForm(String name, String cedula) {
+        employee.attemptsTo(
+                WaitUntil.the(DoctorFormModal.MODAL, isVisible()).forNoMoreThan(10).seconds(),
+                Enter.theValue(name).into(DoctorFormModal.NAME_FIELD),
+                Enter.theValue(cedula).into(DoctorFormModal.CEDULA_FIELD)
+        );
+    }
+
+    @And("el usuario cierra el modal de creacion")
+    public void closeCreateModal() {
+        employee.attemptsTo(CloseCreateModal.now());
+    }
+
+    @And("el usuario toca el campo cedula y sale sin escribir")
+    public void touchCedulaFieldAndLeave() {
+        employee.attemptsTo(
+                Click.on(DoctorFormModal.CEDULA_FIELD),
+                Click.on(DoctorFormModal.NAME_FIELD)
+        );
+    }
+
+    @When("el usuario intenta crear un medico {string} con la misma cedula")
+    public void createDoctorWithDuplicateCedula(String name) {
+        employee.attemptsTo(CreateDoctorWithSameCedula.andName(name));
+    }
+
+    @When("el usuario crea un medico con la cedula reutilizada y nombre {string}")
+    public void createDoctorWithReusedCedula(String name) {
+        employee.attemptsTo(CreateDoctorWithSameCedula.andName(name));
+    }
+
+    @When("el usuario abre y cierra el modal de edicion del medico {string}")
+    public void openAndCloseEditModal(String doctorDisplayName) {
+        employee.attemptsTo(CloseEditModal.forDoctor(doctorDisplayName));
+    }
+
+    @When("el usuario abre el modal de edicion del medico {string} y presiona Escape")
+    public void openEditModalAndPressEscape(String doctorDisplayName) {
+        employee.attemptsTo(OpenEditModalAndPressEscape.forDoctor(doctorDisplayName));
     }
 }

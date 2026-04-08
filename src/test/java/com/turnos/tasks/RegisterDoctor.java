@@ -27,9 +27,11 @@ public class RegisterDoctor implements Task {
     @Step("{0} registra al medico '#name' con consultorio '#office' y franja '#shift'")
     @Override
     public <T extends Actor> void performAs(T actor) {
+        String cedula = Constants.uniqueCedula();
+        actor.remember("lastCreatedCedula", cedula);
         actor.attemptsTo(
                 Click.on(DoctorsPage.CREATE_DOCTOR_BUTTON),
-                FillDoctorForm.withAllFields(name, Constants.uniqueCedula(), office, shift),
+                FillDoctorForm.withAllFields(name, cedula, office, shift),
                 Click.on(DoctorFormModal.SAVE_BUTTON),
                 WaitUntil.the(DoctorsPage.doctorRow("Dr. " + name), isVisible()).forNoMoreThan(15).seconds()
         );

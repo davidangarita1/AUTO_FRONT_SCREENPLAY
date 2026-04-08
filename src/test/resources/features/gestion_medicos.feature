@@ -99,3 +99,44 @@ Feature: Gestion de Medicos
     Given el medico "Sofia Torres" con cedula "3456789" esta registrado con consultorio "7" y franja "14:00-22:00"
     When el usuario cancela la baja del medico "Dr. Sofia Torres"
     Then el medico "Dr. Sofia Torres" aparece en la tabla
+
+  @crear_usuario
+  Scenario: Cerrar el modal de creacion sin guardar no agrega medicos
+    Given el formulario de creacion de medico esta abierto
+    When el usuario ingresa nombre "Temporal" y cedula "9999999" en el formulario
+    And el usuario cierra el modal de creacion
+    Then el medico "Dr. Temporal" no aparece en la tabla
+
+  @crear_usuario
+  Scenario: La cedula vacia impide guardar
+    Given el formulario de creacion de medico esta abierto
+    When el usuario escribe "Juan Garcia" en el campo nombre
+    And el usuario toca el campo cedula y sale sin escribir
+    Then aparece el mensaje de validacion "El número de cédula es obligatorio"
+    And el boton de guardar esta deshabilitado
+
+  @crear_usuario @limpiar_medicos
+  Scenario: La cedula duplicada en un medico activo muestra alerta
+    Given el medico "Original Doctor" con cedula "1111111" esta registrado con consultorio "1" y franja "06:00-14:00"
+    When el usuario intenta crear un medico "Duplicado Doctor" con la misma cedula
+    Then aparece el mensaje flotante "Ya existe un médico registrado con ese número de cédula"
+
+  @crear_usuario @limpiar_medicos
+  Scenario: La cedula de un medico dado de baja permite crear otro medico
+    Given el medico "Medico Baja" con cedula "2222222" esta registrado con consultorio "2" y franja "06:00-14:00"
+    When el usuario confirma la baja del medico "Dr. Medico Baja"
+    And el usuario crea un medico con la cedula reutilizada y nombre "Medico Nuevo"
+    Then aparece el mensaje flotante "Médico creado exitosamente"
+    And el medico "Dr. Medico Nuevo" aparece en la tabla con consultorio "Sin asignar" y franja "Sin asignar"
+
+  @crear_usuario @limpiar_medicos
+  Scenario: Cerrar el modal de edicion sin guardar preserva los datos
+    Given el medico "Elena Rios" con cedula "4567890" esta registrado con consultorio "3" y franja "06:00-14:00"
+    When el usuario abre y cierra el modal de edicion del medico "Dr. Elena Rios"
+    Then el medico "Dr. Elena Rios" aparece en la tabla con consultorio "3" y franja "06:00-14:00"
+
+  @crear_usuario @limpiar_medicos
+  Scenario: La tecla Escape no cierra el modal de edicion
+    Given el medico "Ricardo Mora" con cedula "5678901" esta registrado con consultorio "4" y franja "14:00-22:00"
+    When el usuario abre el modal de edicion del medico "Dr. Ricardo Mora" y presiona Escape
+    Then el modal de edicion permanece abierto
