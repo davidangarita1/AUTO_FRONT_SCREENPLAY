@@ -126,7 +126,7 @@ Feature: Gestion de Medicos
     Given el medico "Medico Baja" con cedula "2222222" esta registrado con consultorio "2" y franja "14:00-22:00"
     When el usuario confirma la baja del medico "Dr. Medico Baja"
     And el usuario crea un medico con la cedula reutilizada y nombre "Medico Nuevo"
-    Then aparece el mensaje flotante "HTTP_ERROR_500"
+    Then aparece el mensaje flotante "Error del servidor. Intente más tarde."
 
   @crear_usuario @limpiar_medicos
   Scenario: Cerrar el modal de edicion sin guardar preserva los datos
